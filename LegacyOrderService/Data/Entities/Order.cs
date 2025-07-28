@@ -10,6 +10,7 @@ namespace LegacyOrderService.Data.Entities;
 
 public class Order
 {
+    public int Id { get; set; }
     public string CustomerName;
     public string ProductName;
     public int Quantity;
@@ -22,6 +23,7 @@ public class Order
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable(TABLE_NAME);
+            builder.HasKey(e => e.Id);
 
         }
     }

@@ -30,7 +30,7 @@ public class EventCreateOrderCommand : IRequest
                 Price = price
             };
 
-            _orderDbContext.Orders.Add(order);
+            await _orderDbContext.Orders.AddAsync(order);
             await _orderDbContext.SaveChangesAsync(cancellationToken);
         }
     }
