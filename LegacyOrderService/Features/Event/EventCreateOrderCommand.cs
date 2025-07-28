@@ -1,13 +1,13 @@
 ﻿using LegacyOrderService.Data.Entities;
 using MediatR;
 
-public class EventCreateOrderCommand : IRequest
+public class EventCreateOrderCommand : IRequest<bool>
 {
     public string CustomerName { get; set; } = default!;
     public string ProductName { get; set; } = default!;
     public int Quantity { get; set; }
 
-    public class EventCreateOrderCommandHandler : IRequestHandler<EventCreateOrderCommand>
+    public class EventCreateOrderCommandHandler : IRequestHandler<EventCreateOrderCommand, bool>
     {
         private readonly OrderDbContext _orderDbContext;
 
@@ -16,7 +16,7 @@ public class EventCreateOrderCommand : IRequest
             _orderDbContext = orderDbContext;
         }
 
-        public async Task Handle(EventCreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(EventCreateOrderCommand request, CancellationToken cancellationToken)
         {
 
             //get price from cache
@@ -32,6 +32,9 @@ public class EventCreateOrderCommand : IRequest
 
             await _orderDbContext.Orders.AddAsync(order);
             await _orderDbContext.SaveChangesAsync(cancellationToken);
+
+            Console.WriteLine("Order created");
+            return true;
         }
     }
 }

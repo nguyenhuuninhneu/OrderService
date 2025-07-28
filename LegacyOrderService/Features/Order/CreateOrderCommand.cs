@@ -32,9 +32,9 @@ public class CreateOrderCommand : IRequest<string>
 
             command.CustomerName.IsEmpty().ThenThrow(Exceptions.CustomerNameIsRequired);
 
-            (command.Quantity <= 0).ThenThrow(Exceptions.QuantityMustBeGreaterThenZero);
+            (command.Quantity <= 0).ThenThrow(Exceptions.QuantityMustBeGreaterThanZero);
 
-            (!Program.PriceOfProducts.ContainsKey(command.ProductName)).ThenThrow(Exceptions.QuantityMustBeGreaterThenZero);
+            (!Program.PriceOfProducts.ContainsKey(command.ProductName)).ThenThrow(Exceptions.ProductDoesNotExist);
 
             //push message to queue
             await Program.OrderEventChannel.Writer.WriteAsync(new EventCreateOrderCommand()
@@ -44,7 +44,7 @@ public class CreateOrderCommand : IRequest<string>
                 Quantity = command.Quantity,
             });
 
-            Console.WriteLine("✅ Order queued. Will be processed shortly...");
+            Console.WriteLine("Order queued. Will be processed shortly...");
 
             return "";
 
