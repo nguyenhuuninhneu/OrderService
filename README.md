@@ -1,15 +1,17 @@
-# OrderService
+﻿# OrderService
 Optimization for legacy order service
 
 ## Tech stack:
-- [MediatR](https://github.com/jbogard/MediatR): to implement CQRS and Interceptor pattern (view `Features/Test` and `Config/Behaviors`).
+- [MediatR](https://github.com/jbogard/MediatR): to implement CQRS pattern (view `Features/Order` and `Config/`).
+- EF Core + SQLite with Code First to avoid SQL injection.
+- The design for easy to test, maintainable, and can scale to Web API if need.
 
 ## Development
 ### EF migrations
-``dotnet ef migrations add MigrationName --startup-project Connector.WebApi/ --project Connector.Common
+``dotnet ef migrations add MigrationName --startup-project LegacyOrdereService/ --project LegacyOrdereService.Data
 ``
 
-``dotnet ef database update --startup-project Connector.WebApi/ --project Connector.Common
+``dotnet ef database update --startup-project LegacyOrdereService/ --project LegacyOrdereService.Data
 ``
 
 - Maximum 2 levels nested code is allowed, the following is **not allowed**:
