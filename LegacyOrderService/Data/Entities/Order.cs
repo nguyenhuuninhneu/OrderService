@@ -10,10 +10,10 @@ namespace LegacyOrderService.Data.Entities;
 
 public class Order
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
     public string CustomerName;
     public string ProductName;
-    public int Quantity;
+    public long Quantity;
     public double Price;
 
     public const string TABLE_NAME = "Orders";
