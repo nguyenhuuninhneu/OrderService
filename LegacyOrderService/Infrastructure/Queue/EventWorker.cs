@@ -33,11 +33,6 @@ public class EventWorker
             {
                 var command = await _reader.ReadAsync(_cts.Token);
 
-                if (command is not IRequest)
-                {
-                    continue;
-                }
-
                 try
                 {
                     using var scope = Program.ServiceProvider.CreateScope();
