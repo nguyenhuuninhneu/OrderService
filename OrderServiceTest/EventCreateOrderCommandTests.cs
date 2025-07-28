@@ -47,6 +47,29 @@ namespace OrderServiceTest
             createOrder.Should().Be(true);
         }
 
+        [Fact]
+        public async Task Handle_MultipleValidCommands_ShouldCreateAllOrders()
+        {
+            // Arrange
+            var handler = new EventCreateOrderCommand.EventCreateOrderCommandHandler(_dbContext);
+
+            int numberRequestSuccess = 10;
+
+            var commands = Enumerable.Range(1, numberRequestSuccess).Select(i => new EventCreateOrderCommand
+            {
+                CustomerName = $"Bob_{i}",
+                ProductName = $"Doohickey",
+                Quantity = i
+            }).ToList();
+
+            // Act
+            var results = await Task.WhenAll(commands.Select(cmd => handler.Handle(cmd, CancellationToken.None)));
+
+            // Assert
+
+            results.Count(p=>p).Should().Be(numberRequestSuccess);
+        }
+
     }
 
 }
